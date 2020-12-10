@@ -1,37 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router, Switch, Route, Link
+} from 'react-router-dom';
+import LocalStorage from './LocalStorage';
+import LocalForage from './LocalForage';
+import IndexDB from './IndexDB';
 import './App.css';
 
 function App() {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
+      <Router>
+        <header>
+          <ul>
+            <li><Link to="localStorage">Local Storage</Link></li>
+            <li><Link to="indexDB">IndexDB</Link></li>
+            <li><Link to="localForage">LocalForage</Link></li>
+          </ul>
+        </header>
+        <>
+        <Switch>      
+          <Route exact path="/localStorage" render={() => <LocalStorage />} />
+          <Route exact path="/indexDB" render={() => <IndexDB />} />
+          <Route exact path="/localForage" render={() => <LocalForage />} />
+        </Switch>
+      </>
+       </Router>
     </div>
   );
 }
