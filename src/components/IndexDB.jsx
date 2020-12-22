@@ -48,7 +48,6 @@ export default () => {
 
   return (
     <div>
-        <h1>IndexDB</h1>
         {time && time.toString()}
         <p>
           <button onClick={()=> storeTime(new Date())}>Set Time via IndexDB</button>
@@ -56,4 +55,3 @@ export default () => {
     </div>
   );
 }
-

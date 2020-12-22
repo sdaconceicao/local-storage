@@ -30,7 +30,6 @@ export default () => {
   }, [])
   return (
     <div>
-        <h1>PouchDB</h1>
         {time && time.toString()}
         <p>
           <button onClick={()=> storeTime(new Date())}>Set Time via PouchDB</button>

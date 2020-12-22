@@ -18,7 +18,6 @@ export default () => {
 
   return (
     <div>
-        <h1>LocalForage</h1>
         {time && time.toString()}
         <p>
           <button onClick={()=> storeTime(new Date())}>Set Time via LocalForage</button>
