@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import LocalForage from '../components/LocalForage';
 
-<Meta title="LocalForage" />
+<Meta 
+  title="LocalForage" 
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: { 'storybook/docs/panel': null, canvas: { hidden: true } },
+  }}
+/>
 
 ## LocalForage
 

@@ -1,10 +1,19 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas } from '@storybook/addon-docs/blocks';
+import { addParameters } from '@storybook/client-api';
 import Cookies from '../components/Cookies';
 
-<Meta title="Cookies" />
+<Meta 
+  title="Cookies" 
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: { 'storybook/docs/panel': null, canvas: { hidden: true } },
+  }}
+/>
 
 ## Cookies 
-<Story name="Example">
-  <Cookies/>
-</Story>
+<Canvas>
+  <Story name="Example">
+    <Cookies/>
+  </Story>
+</Canvas>

@@ -2,7 +2,13 @@ import { useState } from 'react';
 import { Meta, Story } from '@storybook/addon-docs/blocks';
 import IndexDB from '../components/IndexDB';
 
-<Meta title="IndexDB" />
+<Meta 
+  title="IndexDB"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: { 'storybook/docs/panel': null, canvas: { hidden: true } },
+  }}
+/>
 
 ## IndexDB
 
