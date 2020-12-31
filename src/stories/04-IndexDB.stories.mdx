@@ -1,0 +1,26 @@
+import { useState } from 'react';
+import { Meta, Story } from '@storybook/addon-docs/blocks';
+import IndexDB from '../components/IndexDB';
+
+<Meta 
+  title="IndexDB"
+  parameters={{
+    viewMode: 'docs',
+    previewTabs: { 'storybook/docs/panel': null, canvas: { hidden: true } },
+  }}
+/>
+
+## IndexDB
+
+### Comparison
+
+| Pros                         | Cons                                   |
+|------------------------------|----------------------------------------|
+| Native support without any library usage for most browsers | Very Complex API | 
+| More storage and types supported  | Storage limits are inconsistent across browsers |
+
+### Example
+
+<Story name="Example">
+  <IndexDB/>
+</Story>
