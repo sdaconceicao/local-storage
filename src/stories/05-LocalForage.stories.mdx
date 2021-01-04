@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
-import LocalForage from '../components/LocalForage';
+import { Meta, Story, Source } from '@storybook/addon-docs/blocks';
+import LocalForage, { ImageForage } from '../components/LocalForage';
 
 <Meta 
   title="LocalForage" 
@@ -12,18 +12,78 @@ import LocalForage from '../components/LocalForage';
 
 ## LocalForage
 
+LocalForage is a library built on IndexDB(with fallbacks to LocalStorage on older browsers) that tries to match the simplicity of localStorage while bringing with it the ability to store more complex data.
+
 ### Comparison
 
 | Pros                         | Cons                                   |
 |------------------------------|----------------------------------------|
-| Simple API very similar to localstorage | Only supports storing strings | Requires installing a small dependency
+| Simple API very similar to localstorage | Requires installing a small dependency
 | Can store any js types natively | 
 | Built on top of IndexDB so access to more storage space |
 | Fallbacks to localstorage option if browser does not support IndexDB |
 
+### Debugging
 
-### Example
+To view your LocalForage DB:
+
+*  Go to the Application tab in the Chrome Dev console
+*  Under storage, go to the IndexDB item
+*  Click on localforage
+
+## Code 
+
+### Get Time
+
+The call to retrieve data is very similiar to localStorage. Unlike localStorage though, the get method here is promise based.
+
+<Story name="Get">
+<Source language='js'code={`
+const getTime = () => (
+  localForage.getItem('time', (err, value)=>{
+    if (!err) setTime(value);
+  })
+);
+`}
+/>
+</Story>
+
+### Store Time
+
+Storing data is nearly identical to the localStorage api.
+
+<Story name="Set">
+<Source language='js'code={`
+const storeTime = (value) => {
+  localForage.setItem('time', value)
+}
+`}
+/>
+</Story>
+
+## Example
 
 <Story name="Example">
   <LocalForage/>
 </Story>
+
+## Example with Binary Data
+
+<Story name="Example Image">
+  <ImageForage/>
+</Story>
+
+<Source language='js'code={`
+const storeImage = (e) => {
+  const reader  = new FileReader();
+  const file = e.target.files[0];
+  reader.onloadend = function () {
+    localForage.setItem('image', reader.result);
+  }
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+`}
+/>
+

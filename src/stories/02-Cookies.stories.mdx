@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Source } from '@storybook/addon-docs/blocks';
 import Cookies from '../components/Cookies';
 
 <Meta 
@@ -12,6 +12,8 @@ import Cookies from '../components/Cookies';
 
 ## Cookies 
 
+A cookie is a string stored on the user's computer by the web browser while browsing a website. 
+
 ### Comparison
 
 | Pros                         | Cons                                   |
@@ -19,10 +21,49 @@ import Cookies from '../components/Cookies';
 | Native support without any library usage. | Only supports storing strings | 
 | Simple key/value pairs are easy to understand  | Extremely limited storage (4kb)  |
 
+### Debugging
 
-### Example
+To view your current cookies:
+
+*  Go to the Application tab in the Chrome Dev console
+*  Under storage, go to the Cookies item
+*  Click the current url you're on 
+
+## Code
+
+### Get Time
+
+Cookies are stored as a giant string that has to be split and iterated over to find our value.
+
+<Story name="Get">
+<Source language='js'code={`
+const getTime = () => (
+    document.cookie.split(';').map(cookie => {
+      const [name, value] = cookie.split('=');
+      if (name === 'time'){
+        return value;
+      }
+    })
+  );
+`}
+/>
+</Story>
+
+### Store Time
+
+All data that is stored must be serialized.
+
+<Story name="Set">
+<Source language='js'code={`
+const storeTime = (value) => {
+  document.cookie = "time=" + value.toString();
+}
+`}
+/>
+</Story>
+
+## Example
 
 <Story name="Example">
   <Cookies/>
-</Story>
-
+</Story>    

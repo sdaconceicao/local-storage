@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
-import PouchDB from '../components/PouchDB';
+import { Meta, Story, Source } from '@storybook/addon-docs/blocks';
+import PouchDB, { UserExample } from '../components/PouchDB';
 
 <Meta 
   title="PouchDB"
@@ -12,14 +12,105 @@ import PouchDB from '../components/PouchDB';
 
 ## PouchDB
 
+PouchDB is an open-source JavaScript database inspired by Apache CouchDB that is designed to run well within the browser.
+
+* Built to work in offline scenarios where a client won't always have internet access
+* Ideal for syncing with other backend servers like CouchDB
+* Interface is very rest like, using rest verbs for interactions (put, post, get etc)
+* Other similiar alternatives
+  * LokiJS
+  * MongoDB
+  * Hoodie
+  * SQLite
+
 ### Comparison
 
 | Pros                         | Cons                                   |
 |------------------------------|----------------------------------------|
 | Built in syncing to CouchDB  | Complex setup and api                  |
+| Can store any js types natively | 
 
-### Example
+### Debugging
+
+To view your PouchDB:
+
+*  Go to the Application tab in the Chrome Dev console
+*  Under storage, go to the IndexDB item
+*  Click the name of the db you're looking at, in our case it _pouch_timeDB
+
+## Code 
+
+### Setup
+
+PouchDB does alot of the database setup we had to do manually with IndexDB.
+
+<Story name="Setup">
+  <Source language='jsx'code={`
+  db = new PouchDB('timeDB');
+  `}
+  />
+</Story>
+
+
+### Get Time
+
+Retriving data is promise based, like localForage. 
+
+<Story name="Get">
+  <Source language='jsx'code={`
+  const getTime = () => {
+    db.get('time').then(doc=>{
+      setTime(new Date(doc.value));
+    })
+  }
+  `}
+  />
+</Story>
+
+### Store Time 
+
+Storing data is fairly complex, as we have to take revisions into consideration with PouchDB.
+We have to retrieve the existing record's id if it exists, and if so update that data, otherwise we will create a new record.
+
+<Story name="Set">
+  <Source language='js'code={`
+  const storeTime = (value) => {
+    db.get('time').then(
+    doc=>{
+      doc.value = value;
+      db.post(doc);
+    },
+    err=>{
+      db.put({
+        "_id": 'time',
+        value
+      });
+    });
+  }
+  `}
+  />
+</Story>
+
+## Example
 
 <Story name="Example">
   <PouchDB/>
 </Story>
+
+## User Example
+
+<Story name="User Example">
+  <UserExample/>
+</Story>
+
+Each document is atomic, so even just changing a single field requires a put of the entire doc. There is no patch equivalent.
+
+<Source language='jsx'code={`
+<button onClick={()=> storeUser({
+    name: generateName(),
+    age: generateRandomInt(10, 100)
+  })}>
+  Set User via PouchDB
+</button>
+`}
+/>

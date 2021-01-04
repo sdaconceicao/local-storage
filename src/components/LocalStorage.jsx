@@ -11,10 +11,15 @@ export default () => {
     const [time, setTime] = useState(getTime());
     return (
       <div>
-          {time}
           <p>
             <button onClick={()=> storeTime(new Date())}>Set Time via Local Storage</button>
           </p>
+          {time && (
+          <>
+            <h3>Saved Time</h3>
+            <p>{time.toString()}</p>
+          </>
+        )}
       </div>
     );
   }

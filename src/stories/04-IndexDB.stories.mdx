@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Source } from '@storybook/addon-docs/blocks';
 import IndexDB from '../components/IndexDB';
 
 <Meta 
@@ -12,14 +12,102 @@ import IndexDB from '../components/IndexDB';
 
 ## IndexDB
 
+IndexedDB is a low-level API for client-side storage of significant amounts of structured data, including files/blobs. 
+
+* Transactional database system
+* Data is stored as JSON
+
 ### Comparison
 
 | Pros                         | Cons                                   |
 |------------------------------|----------------------------------------|
 | Native support without any library usage for most browsers | Very Complex API | 
 | More storage and types supported  | Storage limits are inconsistent across browsers |
+| | * IE 250mb |
+| | * Chrome 6% of Free space |
+| | * Firefox 10% of Free space |
 
-### Example
+### Debugging
+
+To view your IndexDB:
+
+*  Go to the Application tab in the Chrome Dev console
+*  Under storage, go to the IndexDB item
+*  Click the name of the db you're looking at, in our case it timeIndexDB
+
+## Code 
+
+### Setup
+
+Unlike previous options, we have to do a significant amount of setup before we can begin storing or retrieivng data. This is database living within your browser.
+
+<Story name="Setup">
+<Source language='js'code={`
+let db;
+const request = window.indexedDB.open('timeIndexDB'); 
+  request.onerror = function (event) {
+    console.log('The database is opened failed');
+  };
+  
+  request.onsuccess = (event) => {
+    db = request.result;
+    console.log('The database is opened successfully');
+    setTime(getTime());
+  };
+  
+  request.onupgradeneeded = (event) => {
+    db = event.target.result;
+    let objectStore;
+    if (!db.objectStoreNames.contains('time')) {
+      objectStore = db.createObjectStore('time', { keyPath: 'id' });
+    }
+  }
+`}
+/>
+</Story>
+
+### Get Time
+
+IndexDB methods to get and set data are comparable to what you would see in a typical server database. 
+
+<Story name="Get">
+<Source language='js'code={`
+const getTime = () => {
+  const objectStore = db.transaction(['time']).objectStore('time');
+  const request = objectStore.get(1);
+  
+  request.onerror = (event) => {
+    console.log('Transaction failed');
+  };
+  
+  request.onsuccess = function( event) {
+      if (request.result) {
+        setTime(request.result.value);
+      } else {
+        console.log('No data record');
+      }
+  };
+}
+`}
+/>
+</Story>
+
+### Store Time
+
+Unlike the previous options, we can store any type of data, like a time object. The actual api to store is much more complex.
+
+<Story name="Set">
+<Source language='js'code={`
+const storeTime = (value) => {
+    const request = db.transaction(['time'], 'readwrite')
+      .objectStore('time')
+      .put({ id: 1, value });
+  }
+`}
+/>
+</Story>
+
+## Example
 
 <Story name="Example">
   <IndexDB/>

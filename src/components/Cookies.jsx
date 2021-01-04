@@ -17,10 +17,15 @@ export default () => {
     
     return (
       <div>
-          {time}
           <p>
             <button onClick={()=> storeTime(new Date())}>Set Time via Cookie</button>
           </p>
+          {time && (
+          <>
+            <h3>Saved Time</h3>
+            <p>{time}</p>
+          </>
+        )}
       </div>
     );
   }

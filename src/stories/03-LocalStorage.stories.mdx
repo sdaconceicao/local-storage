@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Meta, Story } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Source } from '@storybook/addon-docs/blocks';
 import LocalStorage from '../components/LocalStorage';
 
 <Meta 
@@ -12,6 +12,8 @@ import LocalStorage from '../components/LocalStorage';
 
 ## LocalStorage
 
+LocalStorage is an object stored by the browser containing a list of key/value pairs. 
+
 ### Comparison
 
 | Pros                         | Cons                                   |
@@ -20,7 +22,43 @@ import LocalStorage from '../components/LocalStorage';
 | Simple key/value pairs are easy to understand  | Limited space per browser (2mb– 10mb)  |
 | More storage allowed then Cookies ||
 
-### Example
+### Debugging
+
+To view your current localstorage:
+
+*  Go to the Application tab in the Chrome Dev console
+*  Under storage, go to the Local Storage item
+*  Click the current url you're on 
+
+## Code 
+
+### Get Time
+
+Retrieving data is simple, by retriving a name value pair.
+
+<Story name="Get">
+<Source language='js'code={`
+const getTime = () => (
+  return localStorage.getItem('lsTime')
+);
+`}
+/>
+</Story>
+
+### Store Time
+
+Like cookies, all stored data must be serialized.
+
+<Story name="Set">
+<Source language='js'code={`
+const storeTime = (value) => {
+  localStorage.setItem('lsTime', value.toString());
+}
+`}
+/>
+</Story>
+
+## Example
 
 <Story name="Example">
   <LocalStorage/>

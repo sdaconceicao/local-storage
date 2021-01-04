@@ -48,10 +48,15 @@ export default () => {
 
   return (
     <div>
-        {time && time.toString()}
         <p>
           <button onClick={()=> storeTime(new Date())}>Set Time via IndexDB</button>
         </p>
+        {time && (
+          <>
+            <h3>Saved Time</h3>
+            <p>{time.toString()}</p>
+          </>
+        )}
     </div>
   );
 }
